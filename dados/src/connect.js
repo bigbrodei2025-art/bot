@@ -132,7 +132,7 @@ async function createGroupMessage(NazunaSock, groupMetadata, participants, setti
         const {
         banner,
         } = modules;
-       
+        
         const image = settings.image !== 'banner' ? {
             url: settings.image
         } : await banner.Welcome(profilePicUrl, bannerName, groupMetadata.subject, groupMetadata.participants.length);
@@ -624,6 +624,26 @@ async function performMigration(NazunaSock) {
     console.log(`✅ Migração finalizada: ${totalReplacements} edições e ${totalRemovals} remoções em ${allUpdatedFiles.length} arquivos.`);
 }
 
+// -------------------------------------------------------------
+// FUNÇÃO PARA O NOVO RECURSO DE MENSAGENS AGENDADAS
+// -------------------------------------------------------------
+async function checkAndSendMessage(sock) {
+    const ownerJid = `${numerodono}@s.whatsapp.net`;
+    try {
+        const hora = new Date().getHours();
+        // Você pode ajustar a condição para a hora que desejar
+        if (hora === 10) { 
+            await sock.sendMessage(ownerJid, {
+                text: 'Olá, este é um teste de mensagem agendada!'
+            });
+            console.log('✅ Mensagem agendada enviada com sucesso!');
+        }
+    } catch (error) {
+        console.error(`❌ Erro ao enviar mensagem agendada: ${error.message}`);
+    }
+}
+// -------------------------------------------------------------
+
 async function createBotSocket(authDir) {
     try {
         const { 
@@ -736,6 +756,10 @@ async function createBotSocket(authDir) {
                 console.log(`🔄 Conexão aberta. Atualizando LID do dono e iniciando verificação de migração...`);
                 await updateOwnerLid(NazunaSock);
                 await performMigration(NazunaSock);
+                
+                // Chamada da nova função a cada hora (3600000 ms)
+                setInterval(() => checkAndSendMessage(NazunaSock), 3600000);
+
                 attachMessagesListener();
                 console.log(`✅ Bot ${nomebot} iniciado com sucesso! Prefixo: ${prefixo} | Dono: ${nomedono}`);
             }
