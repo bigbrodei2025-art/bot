@@ -17,6 +17,11 @@ import qrcode from 'qrcode-terminal';
 import { readFile } from "fs/promises";
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+// ------------------------------------------------------------------
+// NOVAS IMPORTAÇÕES PARA O SERVIDOR WEB
+// ------------------------------------------------------------------
+import express from 'express';
+// ------------------------------------------------------------------
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -624,14 +629,10 @@ async function performMigration(NazunaSock) {
     console.log(`✅ Migração finalizada: ${totalReplacements} edições e ${totalRemovals} remoções em ${allUpdatedFiles.length} arquivos.`);
 }
 
-// -------------------------------------------------------------
-// FUNÇÃO PARA O NOVO RECURSO DE MENSAGENS AGENDADAS
-// -------------------------------------------------------------
 async function checkAndSendMessage(sock) {
     const ownerJid = `${numerodono}@s.whatsapp.net`;
     try {
         const hora = new Date().getHours();
-        // Você pode ajustar a condição para a hora que desejar
         if (hora === 10) { 
             await sock.sendMessage(ownerJid, {
                 text: 'Olá, este é um teste de mensagem agendada!'
@@ -642,7 +643,6 @@ async function checkAndSendMessage(sock) {
         console.error(`❌ Erro ao enviar mensagem agendada: ${error.message}`);
     }
 }
-// -------------------------------------------------------------
 
 async function createBotSocket(authDir) {
     try {
@@ -757,7 +757,6 @@ async function createBotSocket(authDir) {
                 await updateOwnerLid(NazunaSock);
                 await performMigration(NazunaSock);
                 
-                // Chamada da nova função a cada hora (3600000 ms)
                 setInterval(() => checkAndSendMessage(NazunaSock), 3600000);
 
                 attachMessagesListener();
@@ -796,6 +795,25 @@ async function createBotSocket(authDir) {
 async function startNazu() {
     try {
         console.log('🚀 Iniciando Nazuna...');
+        
+        // ------------------------------------------------------------------
+        // NOVO BLOCO DE CÓDIGO DO SERVIDOR WEB
+        // ------------------------------------------------------------------
+        const app = express();
+        const PORT = process.env.PORT || 1000;
+        
+        // Serve o arquivo index.htm do diretório raiz
+        app.use(express.static(__dirname));
+
+        app.get('/', (req, res) => {
+            res.sendFile(join(__dirname, 'index.htm'));
+        });
+
+        app.listen(PORT, '0.0.0.0', () => {
+            console.log(`🌐 Servidor web rodando em http://0.0.0.0:${PORT}`);
+        });
+        // ------------------------------------------------------------------
+        
         await createBotSocket(AUTH_DIR);
     } catch (err) {
         console.error(`❌ Erro ao iniciar o bot: ${err.message}`);
