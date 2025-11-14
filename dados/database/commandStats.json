@@ -1,4 +1,68 @@
 {
-  "commands": {},
-  "lastUpdated": "2025-09-26T02:27:36.424Z"
+  "commands": {
+    "menu": {
+      "count": 1,
+      "users": {
+        "555185156039@s.whatsapp.net": 1
+      },
+      "lastUsed": "2025-11-14T05:57:01.767Z"
+    },
+    "ping": {
+      "count": 2,
+      "users": {
+        "555185156039@s.whatsapp.net": 2
+      },
+      "lastUsed": "2025-11-14T05:57:36.583Z"
+    },
+    "status": {
+      "count": 1,
+      "users": {
+        "555185156039@s.whatsapp.net": 1
+      },
+      "lastUsed": "2025-11-14T05:57:51.423Z"
+    },
+    "stats": {
+      "count": 1,
+      "users": {
+        "555185156039@s.whatsapp.net": 1
+      },
+      "lastUsed": "2025-11-14T05:57:59.120Z"
+    },
+    "menudono": {
+      "count": 1,
+      "users": {
+        "555185156039@s.whatsapp.net": 1
+      },
+      "lastUsed": "2025-11-14T05:58:07.170Z"
+    },
+    "play": {
+      "count": 1,
+      "users": {
+        "555185156039@s.whatsapp.net": 1
+      },
+      "lastUsed": "2025-11-14T05:58:17.045Z"
+    },
+    "play3": {
+      "count": 1,
+      "users": {
+        "555185156039@s.whatsapp.net": 1
+      },
+      "lastUsed": "2025-11-14T05:58:39.473Z"
+    },
+    "playvid": {
+      "count": 1,
+      "users": {
+        "555185156039@s.whatsapp.net": 1
+      },
+      "lastUsed": "2025-11-14T05:58:50.499Z"
+    },
+    "cpf": {
+      "count": 1,
+      "users": {
+        "555185156039@s.whatsapp.net": 1
+      },
+      "lastUsed": "2025-11-14T05:59:42.357Z"
+    }
+  },
+  "lastUpdated": "2025-11-14T05:59:42.357Z"
 }

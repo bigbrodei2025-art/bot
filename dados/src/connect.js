@@ -14,15 +14,19 @@ import pino from 'pino';
 import fs from 'fs/promises';
 import path from 'path';
 import qrcode from 'qrcode-terminal';
-import { readFile } from "fs/promises";
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-// ------------------------------------------------------------------
-// NOVAS IMPORTAÇÕES PARA O SERVIDOR WEB
-// ------------------------------------------------------------------
+import {
+    readFile
+} from "fs/promises";
+import {
+    fileURLToPath
+} from 'url';
+import {
+    dirname,
+    join
+} from 'path';
 import express from 'express';
-// ------------------------------------------------------------------
 
+// --- Variáveis de Ambiente e Configuração ---
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -38,6 +42,7 @@ const logger = pino({
 const AUTH_DIR = path.join(__dirname, '..', 'database', 'qr-code');
 const DATABASE_DIR = path.join(__dirname, '..', 'database');
 const GLOBAL_BLACKLIST_PATH = path.join(__dirname, '..', 'database', 'dono', 'globalBlacklist.json');
+
 const msgRetryCounterCache = new NodeCache({
     stdTTL: 5 * 60,
     useClones: false
@@ -46,15 +51,21 @@ const groupCache = new NodeCache({
     stdTTL: 5 * 60,
     useClones: false
 });
+
 const {
     prefixo,
     nomebot,
     nomedono,
     numerodono
 } = config;
-const codeMode = process.argv.includes('--code');
+
+// Define o modo de conexão: --code para Pareamento por Código, padrão para QR Code
+const codeMode = process.argv.includes('--code'); 
+
 const messagesCache = new Map();
 setInterval(() => messagesCache.clear(), 600000);
+
+// --- Funções Auxiliares ---
 
 const ask = (question) => {
     const rl = readline.createInterface({
@@ -85,7 +96,7 @@ async function loadGroupSettings(groupId) {
         const data = await fs.readFile(groupFilePath, 'utf-8');
         return JSON.parse(data);
     } catch (e) {
-        console.error(`❌ Erro ao ler configurações do grupo ${groupId}: ${e.message}`);
+        // console.error(`❌ Erro ao ler configurações do grupo ${groupId}: ${e.message}`);
         return {};
     }
 }
@@ -95,7 +106,7 @@ async function loadGlobalBlacklist() {
         const data = await fs.readFile(GLOBAL_BLACKLIST_PATH, 'utf-8');
         return JSON.parse(data).users || {};
     } catch (e) {
-        console.error(`❌ Erro ao ler blacklist global: ${e.message}`);
+        // console.error(`❌ Erro ao ler blacklist global: ${e.message}`);
         return {};
     }
 }
@@ -131,17 +142,17 @@ async function createGroupMessage(NazunaSock, groupMetadata, participants, setti
         if (participants.length === 1 && isWelcome) {
             profilePicUrl = await NazunaSock.profilePictureUrl(participants[0], 'image').catch(() => profilePicUrl);
         }
-        
+
         const loadedModulesPromise = await import(new URL('./funcs/exports.js', import.meta.url));
         const modules = await loadedModulesPromise.default;
         const {
-        banner,
+            banner,
         } = modules;
-        
+
         const image = settings.image !== 'banner' ? {
             url: settings.image
         } : await banner.Welcome(profilePicUrl, bannerName, groupMetadata.subject, groupMetadata.participants.length);
-        
+
         message.image = image;
         message.caption = text;
         delete message.text;
@@ -250,7 +261,11 @@ function collectJidsFromJson(obj, jidsSet = new Set()) {
     return jidsSet;
 }
 
-function replaceJidsInJson(obj, jidToLidMap, orphanJidsSet, replacementsCount = { count: 0 }, removalsCount = { count: 0 }) {
+function replaceJidsInJson(obj, jidToLidMap, orphanJidsSet, replacementsCount = {
+    count: 0
+}, removalsCount = {
+    count: 0
+}) {
     if (Array.isArray(obj)) {
         obj.forEach((item, index) => {
             const newItem = replaceJidsInJson(item, jidToLidMap, orphanJidsSet, replacementsCount, removalsCount);
@@ -334,7 +349,9 @@ async function scanForJids(directory) {
 
     const scanDir = async (dirPath) => {
         try {
-            const entries = await fs.readdir(dirPath, { withFileTypes: true });
+            const entries = await fs.readdir(dirPath, {
+                withFileTypes: true
+            });
             for (const entry of entries) {
                 const fullPath = join(dirPath, entry.name);
                 if (entry.isDirectory()) {
@@ -375,21 +392,25 @@ async function scanForJids(directory) {
 async function replaceJidsInContent(affectedFiles, jidToLidMap, orphanJidsSet) {
     let totalReplacements = 0;
     let totalRemovals = 0;
-    const updatedFiles = [];
+    const allUpdatedFiles = [];
 
     for (const [filePath, jids] of affectedFiles) {
         try {
             const content = await fs.readFile(filePath, 'utf-8');
             let jsonObj = JSON.parse(content);
-            const replacementsCount = { count: 0 };
-            const removalsCount = { count: 0 };
+            const replacementsCount = {
+                count: 0
+            };
+            const removalsCount = {
+                count: 0
+            };
             replaceJidsInJson(jsonObj, jidToLidMap, orphanJidsSet, replacementsCount, removalsCount);
             if (replacementsCount.count > 0 || removalsCount.count > 0) {
                 const updatedContent = JSON.stringify(jsonObj, null, 2);
                 await fs.writeFile(filePath, updatedContent, 'utf-8');
                 totalReplacements += replacementsCount.count;
                 totalRemovals += removalsCount.count;
-                updatedFiles.push(path.basename(filePath));
+                allUpdatedFiles.push(path.basename(filePath));
                 console.log(`✅ Substituídas ${replacementsCount.count} ocorrências e removidas ${removalsCount.count} JIDs órfãos em ${path.basename(filePath)}.`);
             }
         } catch (err) {
@@ -397,7 +418,11 @@ async function replaceJidsInContent(affectedFiles, jidToLidMap, orphanJidsSet) {
         }
     }
 
-    return { totalReplacements, totalRemovals, updatedFiles };
+    return {
+        totalReplacements,
+        totalRemovals,
+        updatedFiles: allUpdatedFiles
+    };
 }
 
 async function handleJidFiles(jidFiles, jidToLidMap, orphanJidsSet) {
@@ -429,8 +454,12 @@ async function handleJidFiles(jidFiles, jidToLidMap, orphanJidsSet) {
         try {
             const content = await fs.readFile(oldPath, 'utf-8');
             let jsonObj = JSON.parse(content);
-            const replacementsCount = { count: 0 };
-            const removalsCount = { count: 0 };
+            const replacementsCount = {
+                count: 0
+            };
+            const removalsCount = {
+                count: 0
+            };
             replaceJidsInJson(jsonObj, jidToLidMap, orphanJidsSet, replacementsCount, removalsCount);
             totalReplacements += replacementsCount.count;
             totalRemovals += removalsCount.count;
@@ -449,7 +478,10 @@ async function handleJidFiles(jidFiles, jidToLidMap, orphanJidsSet) {
             await fs.unlink(oldPath);
 
             updatedFiles.push(path.basename(newPath));
-            renamedFiles.push({ old: path.basename(oldPath), new: path.basename(newPath) });
+            renamedFiles.push({
+                old: path.basename(oldPath),
+                new: path.basename(newPath)
+            });
 
             if (replacementsCount.count > 0 || removalsCount.count > 0) {
                 console.log(`Substituídas ${replacementsCount.count} ocorrências e removidas ${removalsCount.count} JIDs órfãos no conteúdo de ${path.basename(oldPath)}.`);
@@ -459,7 +491,13 @@ async function handleJidFiles(jidFiles, jidToLidMap, orphanJidsSet) {
         }
     }
 
-    return { totalReplacements, totalRemovals, updatedFiles, renamedFiles, deletedFiles };
+    return {
+        totalReplacements,
+        totalRemovals,
+        updatedFiles,
+        renamedFiles,
+        deletedFiles
+    };
 }
 
 async function fetchLidWithRetry(NazunaSock, jid, maxRetries = 3) {
@@ -467,7 +505,10 @@ async function fetchLidWithRetry(NazunaSock, jid, maxRetries = 3) {
         try {
             const result = await NazunaSock.onWhatsApp(jid);
             if (result && result[0] && result[0].lid) {
-                return { jid, lid: result[0].lid };
+                return {
+                    jid,
+                    lid: result[0].lid
+                };
             }
             console.warn(`Tentativa ${attempt} falhou para JID ${jid}: LID não encontrado.`);
             return null;
@@ -490,14 +531,20 @@ async function fetchLidsInBatches(NazunaSock, uniqueJids, batchSize = 5) {
     for (let i = 0; i < uniqueJids.length; i += batchSize) {
         const batch = uniqueJids.slice(i, i + batchSize);
         console.log(`🔄 Processando lote ${Math.floor(i / batchSize) + 1}: ${batch.length} JIDs.`);
-        
+
         const batchPromises = batch.map(jid => fetchLidWithRetry(NazunaSock, jid));
         const batchResults = await Promise.allSettled(batchPromises);
-        
+
         batchResults.forEach((result, index) => {
             if (result.status === 'fulfilled' && result.value) {
-                const { jid, lid } = result.value;
-                lidResults.push({ jid, lid });
+                const {
+                    jid,
+                    lid
+                } = result.value;
+                lidResults.push({
+                    jid,
+                    lid
+                });
                 jidToLidMap.set(jid, lid);
                 successfulFetches++;
             }
@@ -508,7 +555,10 @@ async function fetchLidsInBatches(NazunaSock, uniqueJids, batchSize = 5) {
         }
     }
 
-    return { lidResults, jidToLidMap, successfulFetches };
+    return {
+        jidToLidMap,
+        successfulFetches
+    };
 }
 
 async function updateOwnerLid(NazunaSock) {
@@ -536,11 +586,17 @@ async function performMigration(NazunaSock) {
         scanResult = await scanForJids(DATABASE_DIR);
     } catch (err) {
         console.error(`Erro crítico no scan: ${err.message}`);
-        await NazunaSock.sendMessage(ownerJid, { text: `❌ Erro ao escanear database: ${err.message}. Iniciando bot sem migração.` });
+        await NazunaSock.sendMessage(ownerJid, {
+            text: `❌ Erro ao escanear database: ${err.message}. Iniciando bot sem migração.`
+        });
         return;
     }
 
-    const { uniqueJids, affectedFiles, jidFiles } = scanResult;
+    const {
+        uniqueJids,
+        affectedFiles,
+        jidFiles
+    } = scanResult;
 
     if (uniqueJids.length === 0) {
         console.log('ℹ️ Nenhum JID encontrado na database. Iniciando bot normalmente.');
@@ -550,20 +606,27 @@ async function performMigration(NazunaSock) {
     const initialMsg = `🌟 *Olá, ${nomedono}!* 🌟\n\n` +
         `🔍 Detectei *${uniqueJids.length} JID(s)* únicos em *${affectedFiles.length + jidFiles.length} fonte(s)* (arquivos e nomes).\n\n` +
         `🚀 Iniciando migração automática para LIDs. Isso pode levar alguns minutos, mas garanto que vale a pena! A bot ficará pausada para mensagens até finalizar. Aguarde aqui... 💕`;
-    
+
     try {
-        await NazunaSock.sendMessage(ownerJid, { text: initialMsg });
+        await NazunaSock.sendMessage(ownerJid, {
+            text: initialMsg
+        });
     } catch (sendErr) {
         console.error(`Erro ao enviar mensagem inicial: ${sendErr.message}`);
     }
 
-    const { jidToLidMap, successfulFetches } = await fetchLidsInBatches(NazunaSock, uniqueJids);
+    const {
+        jidToLidMap,
+        successfulFetches
+    } = await fetchLidsInBatches(NazunaSock, uniqueJids);
     const orphanJidsSet = new Set(uniqueJids.filter(jid => !jidToLidMap.has(jid)));
 
     if (jidToLidMap.size === 0) {
         const noLidMsg = `⚠️ *Migração incompleta!* ⚠️\n\nNão foi possível obter LIDs para nenhum dos JIDs detectados. Verifique a conectividade e tente novamente. A bot iniciará normalmente por enquanto. 😔`;
         try {
-            await NazunaSock.sendMessage(ownerJid, { text: noLidMsg });
+            await NazunaSock.sendMessage(ownerJid, {
+                text: noLidMsg
+            });
         } catch {}
         return;
     }
@@ -593,7 +656,9 @@ async function performMigration(NazunaSock) {
         console.error(`Erro no processamento de substituições: ${processErr.message}`);
         const procErrMsg = `⚠️ *Erro parcial na migração!* ⚠️\n\nProblema durante substituições: ${processErr.message}. Alguns arquivos podem não ter sido atualizados. Reiniciar a bot para tentar novamente.`;
         try {
-            await NazunaSock.sendMessage(ownerJid, { text: procErrMsg });
+            await NazunaSock.sendMessage(ownerJid, {
+                text: procErrMsg
+            });
         } catch {}
         return;
     }
@@ -605,7 +670,10 @@ async function performMigration(NazunaSock) {
 
     if (renamedDetails.length > 0) {
         finalMsg += `📁 Renomeei *${renamedDetails.length} arquivo(s)*:\n`;
-        renamedDetails.forEach(({ old: oldName, new: newName }) => {
+        renamedDetails.forEach(({
+            old: oldName,
+            new: newName
+        }) => {
             finalMsg += `• ${oldName} → ${newName}\n`;
         });
         finalMsg += `\n`;
@@ -620,9 +688,11 @@ async function performMigration(NazunaSock) {
     }
 
     finalMsg += `🌸 Agora a bot está otimizada e pronta para brilhar! Aproveite ao máximo, ${nomedono}. Se precisar de algo, é só chamar. <3`;
-    
+
     try {
-        await NazunaSock.sendMessage(ownerJid, { text: finalMsg });
+        await NazunaSock.sendMessage(ownerJid, {
+            text: finalMsg
+        });
     } catch (sendErr) {
         console.error(`Erro ao enviar mensagem final: ${sendErr.message}`);
     }
@@ -633,7 +703,7 @@ async function checkAndSendMessage(sock) {
     const ownerJid = `${numerodono}@s.whatsapp.net`;
     try {
         const hora = new Date().getHours();
-        if (hora === 10) { 
+        if (hora === 10) {
             await sock.sendMessage(ownerJid, {
                 text: 'Olá, este é um teste de mensagem agendada!'
             });
@@ -644,13 +714,19 @@ async function checkAndSendMessage(sock) {
     }
 }
 
+// --- Função Principal de Conexão (Socket) ---
+
 async function createBotSocket(authDir) {
     try {
-        const { 
-            banner 
+        const {
+            banner
         } = await import(new URL('./funcs/exports.js', import.meta.url));
-        await fs.mkdir(path.join(DATABASE_DIR, 'grupos'), { recursive: true });
-        await fs.mkdir(authDir, { recursive: true });
+        await fs.mkdir(path.join(DATABASE_DIR, 'grupos'), {
+            recursive: true
+        });
+        await fs.mkdir(authDir, {
+            recursive: true
+        });
         const {
             state,
             saveCreds,
@@ -680,6 +756,7 @@ async function createBotSocket(authDir) {
             logger,
         });
 
+        // Habilita o modo de Código de Pareamento se a flag --code foi usada e a sessão não está registrada
         if (codeMode && !NazunaSock.authState.creds.registered) {
             let phoneNumber = await ask('📱 Insira o número de telefone (com código de país, ex: +5511999999999): ');
             phoneNumber = phoneNumber.replace(/\D/g, '');
@@ -743,7 +820,9 @@ async function createBotSocket(authDir) {
                 lastDisconnect,
                 qr
             } = update;
-            if (qr && !NazunaSock.authState.creds.registered && !codeMode) {
+            
+            // Exibe QR Code se o modo código NÃO está ativo e não está registrado
+            if (qr && !NazunaSock.authState.creds.registered && !codeMode) { 
                 console.log('🔗 QR Code gerado para autenticação:');
                 qrcode.generate(qr, {
                     small: true
@@ -752,11 +831,12 @@ async function createBotSocket(authDir) {
                 });
                 console.log('📱 Escaneie o QR code acima com o WhatsApp para autenticar o bot.');
             }
+            
             if (connection === 'open') {
                 console.log(`🔄 Conexão aberta. Atualizando LID do dono e iniciando verificação de migração...`);
                 await updateOwnerLid(NazunaSock);
                 await performMigration(NazunaSock);
-                
+
                 setInterval(() => checkAndSendMessage(NazunaSock), 3600000);
 
                 attachMessagesListener();
@@ -773,7 +853,7 @@ async function createBotSocket(authDir) {
                     [DisconnectReason.timedOut]: 'Tempo de conexão esgotado',
                     [DisconnectReason.badSession]: 'Sessão inválida',
                     [DisconnectReason.restartRequired]: 'Reinício necessário',
-                } [reason] || 'Motivo desconhecido';
+                }[reason] || 'Motivo desconhecido';
                 console.log(`❌ Conexão fechada. Código: ${reason} | Motivo: ${reasonMessage}`);
                 if (reason === DisconnectReason.badSession || reason === DisconnectReason.loggedOut) {
                     await clearAuthDir();
@@ -792,17 +872,16 @@ async function createBotSocket(authDir) {
     }
 }
 
+// --- Função de Inicialização ---
+
 async function startNazu() {
     try {
         console.log('🚀 Iniciando Nazuna...');
-        
-        // ------------------------------------------------------------------
-        // NOVO BLOCO DE CÓDIGO DO SERVIDOR WEB
-        // ------------------------------------------------------------------
+
+        // Início do Servidor Web
         const app = express();
         const PORT = process.env.PORT || 1000;
-        
-        // Serve o arquivo index.htm do diretório raiz
+
         app.use(express.static(__dirname));
 
         app.get('/', (req, res) => {
@@ -812,8 +891,7 @@ async function startNazu() {
         app.listen(PORT, '0.0.0.0', () => {
             console.log(`🌐 Servidor web rodando em http://0.0.0.0:${PORT}`);
         });
-        // ------------------------------------------------------------------
-        
+
         await createBotSocket(AUTH_DIR);
     } catch (err) {
         console.error(`❌ Erro ao iniciar o bot: ${err.message}`);
