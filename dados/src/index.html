@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nazuna Bot | Seu Assistente Completo para WhatsApp</title>
+    <title>Bot Sonhador | Seu Assistente Completo para WhatsApp</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
     <style>
+        /* Paleta de Cores Neon e Verde */
         :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --accent-color: #8a2be2;
-            --secondary-accent: #007bff;
-            --card-bg: #1e1e1e;
-            --border-color: #333;
-            --code-bg: #282c34;
+            --bg-color: #000000; /* Fundo Preto */
+            --text-color: #e0e0e0; /* Texto Claro */
+            --accent-color: #00ff00; /* Verde Neon (Principal) */
+            --secondary-accent: #00ffff; /* Ciano/Azul Neon (Secundário) */
+            --card-bg: #111111; /* Fundo de Cartão Escuro */
+            --border-color: #333; /* Cor de Borda */
+            --code-bg: #1a1a1a; /* Fundo de Código */
+            --shadow-color: rgba(0, 255, 0, 0.4); /* Sombra Verde Neon */
         }
 
         body {
@@ -37,10 +39,23 @@
             padding: 2rem 0 1rem;
         }
         
+        .logo-image {
+            width: 250px;
+            height: auto;
+            margin-bottom: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--shadow-color); /* Efeito neon ao redor da imagem */
+        }
+
         header h1 {
             font-size: 2.5rem;
             color: var(--accent-color);
+            text-shadow: 0 0 10px var(--shadow-color); /* Efeito neon no título */
             margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            color: var(--secondary-accent);
         }
 
         .special-offer {
@@ -50,12 +65,13 @@
             padding: 1.5rem;
             text-align: center;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 25px var(--shadow-color); /* Efeito neon maior no cartão principal */
         }
 
         .special-offer h2 {
             font-size: 1.8rem;
             color: var(--accent-color);
+            text-shadow: 0 0 5px var(--shadow-color);
             margin-top: 0;
         }
 
@@ -74,10 +90,11 @@
         
         .special-offer li {
             margin-bottom: 0.75rem;
+            color: var(--text-color);
         }
         
         .special-offer .check {
-            color: limegreen;
+            color: var(--accent-color); /* Checkmark verde neon */
             font-weight: bold;
             margin-right: 10px;
         }
@@ -85,18 +102,20 @@
         .cta-button {
             display: inline-block;
             background-color: var(--accent-color);
-            color: white;
+            color: var(--bg-color); /* Texto preto no botão neon */
             padding: 1rem 2rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
             font-size: 1.2rem;
-            transition: transform 0.2s, background-color 0.2s;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 15px var(--shadow-color);
         }
         
         .cta-button:hover {
-            background-color: #9c4be9;
+            background-color: #33ff33; /* Verde um pouco mais claro no hover */
             transform: translateY(-2px);
+            box-shadow: 0 0 20px #33ff33;
         }
 
         section {
@@ -104,12 +123,14 @@
             padding: 2rem;
             border-radius: 8px;
             margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            border-left: 5px solid var(--secondary-accent); /* Destaque lateral neon */
         }
         
         h2 {
             font-size: 1.5rem;
             color: var(--secondary-accent);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 0.5rem;
             margin-top: 0;
@@ -117,7 +138,7 @@
         
         h3 {
             font-size: 1.25rem;
-            color: var(--text-color);
+            color: var(--accent-color);
         }
 
         .highlights {
@@ -131,37 +152,42 @@
             padding: 1.5rem;
             border-radius: 8px;
             border-left: 4px solid var(--accent-color);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
         }
         
         .highlight-item h4 {
             margin-top: 0;
             display: flex;
             align-items: center;
+            color: var(--secondary-accent);
         }
 
         .highlight-item h4 span {
             margin-right: 10px;
+            color: var(--accent-color);
         }
 
-        .stats-table {
+        /* Estilos de Tabela (Geral) */
+        .stats-table, .faq-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 1.5rem;
         }
         
-        .stats-table th, .stats-table td {
+        .stats-table th, .stats-table td, .faq-table th, .faq-table td {
             text-align: left;
             padding: 12px 15px;
             border-bottom: 1px solid var(--border-color);
         }
         
-        .stats-table th {
+        .stats-table th, .faq-table th {
             color: var(--accent-color);
-            background-color: #1a1a1a;
+            background-color: #0a0a0a;
+            border-bottom: 2px solid var(--accent-color);
         }
         
-        .stats-table tr:hover {
-            background-color: #242424;
+        .stats-table tr:hover, .faq-table tr:hover {
+            background-color: #1a1a1a;
         }
         
         .stats-table td:first-child {
@@ -169,38 +195,26 @@
             font-weight: bold;
         }
 
+        /* Estilos de Código */
         pre, code {
             font-family: 'Courier New', monospace;
             background-color: var(--code-bg);
+            color: var(--accent-color); /* Código verde neon */
             padding: 0.75rem;
             border-radius: 6px;
             overflow-x: auto;
             white-space: pre-wrap;
             word-wrap: break-word;
             display: block;
+            border: 1px dashed var(--secondary-accent);
         }
 
-        .faq-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem;
-        }
-        
-        .faq-table th, .faq-table td {
-            text-align: left;
-            padding: 15px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .faq-table th {
-            background-color: #1a1a1a;
-            color: var(--secondary-accent);
-        }
-
+        /* Estilos de FAQ (Details/Summary) */
         details {
-            background-color: #1a1a1a;
+            background-color: #111111;
             border-radius: 8px;
             margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
         }
         
         details summary {
@@ -209,7 +223,7 @@
             outline: none;
             list-style: none;
             font-weight: bold;
-            color: var(--text-color);
+            color: var(--secondary-accent);
             position: relative;
         }
 
@@ -218,7 +232,7 @@
             position: absolute;
             right: 1.5rem;
             transition: transform 0.2s;
-            color: var(--secondary-accent);
+            color: var(--accent-color);
         }
         
         details[open] summary::after {
@@ -231,6 +245,7 @@
             border-top: 1px solid var(--border-color);
         }
         
+        /* Links e Outros */
         .back-to-top {
             display: block;
             text-align: right;
@@ -244,56 +259,7 @@
         .back-to-top:hover {
             color: var(--accent-color);
         }
-
-        .support-box {
-            background-color: var(--code-bg);
-            border-radius: 8px;
-            padding: 1.5rem;
-            text-align: center;
-        }
         
-        .support-box h3 {
-            color: var(--accent-color);
-            margin-top: 0;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .social-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.2s;
-        }
-        
-        .social-links a:hover {
-            color: var(--accent-color);
-        }
-
-        .creator-info {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        
-        .creator-info img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid var(--accent-color);
-            margin-bottom: 1rem;
-        }
-        
-        .creator-info h3 {
-            margin-bottom: 0.5rem;
-        }
-
         a {
             color: var(--secondary-accent);
             text-decoration: none;
@@ -308,9 +274,11 @@
             border: 0;
             height: 1px;
             background-color: var(--border-color);
+            box-shadow: 0 0 5px var(--shadow-color);
             margin: 2rem 0;
         }
 
+        /* Adaptação Responsiva */
         @media (max-width: 600px) {
             .container {
                 padding: 1rem;
@@ -322,20 +290,24 @@
                 font-size: 1rem;
                 padding: 0.8rem 1.5rem;
             }
+            .logo-image {
+                width: 180px;
+            }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1><span style="color: var(--accent-color);">nazuna Bot</span></h1>
+    <img src="dados/midias/menu.jpg" alt="Logo Bot Sonhador" class="logo-image">
+    <h1><span style="color: var(--accent-color);">Bot Sonhador</span></h1>
     <p>Seu Assistente Completo para WhatsApp</p>
 </header>
 
 <div class="container">
     <div class="special-offer" id="oferta-premium">
-        <h2>🚀 Oferta Especial (Plano Premium nazuna Bot)</h2>
-        <p>Ative <strong>todas as funções avançadas</strong> do nazuna Bot + <strong>Hospedagem 24/7</strong> (seu bot sempre online, sem depender do seu PC ou celular) por apenas <strong>R$ 25 / mês</strong>.</p>
+        <h2>🚀 Oferta Especial (Plano Premium Bot Sonhador)</h2>
+        <p>Ative <strong>todas as funções avançadas</strong> do Bot Sonhador + <strong>Hospedagem 24/7</strong> (seu bot sempre online, sem depender do seu PC ou celular) por apenas <strong>R$ 25 / mês</strong>.</p>
         <p>Ideal para quem quer profissionalizar o uso do bot sem dor de cabeça!</p>
         <div style="text-align: left; margin: 1.5rem auto; max-width: 400px;">
             <h3>Benefícios incluídos no combo:</h3>
@@ -348,24 +320,24 @@
                 <li><span class="check">✅</span> Menos risco de queda ou ban por má configuração</li>
             </ul>
         </div>
-        <a href="https://wa.me/5533999285117" class="cta-button" target="_blank">
+        <a href="https://wa.me/5551986690984" class="cta-button" target="_blank">
             👉 Garanta agora: Falar no WhatsApp
         </a>
-        <p style="margin-top: 1rem; font-size: 0.9rem;">Vagas promocionais limitadas.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">Vagas promocionais limitadas. Número de contato: **(51) 98669-0984**</p>
     </div>
 
     <hr>
     
     <section id="introducao">
-        <h2>Bem-vindo ao repositório oficial do nazuna Bot!</h2>
-        <p>Este projeto é um bot avançado e multifuncional para WhatsApp, desenvolvido com a robustez do <strong>Node.js</strong> e a flexibilidade da biblioteca <strong>WaLib</strong>. Criado para otimizar sua comunicação e gestão de grupos, o nazuna Bot oferece uma vasta gama de comandos, desde funcionalidades administrativas essenciais até opções de entretenimento interativas. É a solução perfeita tanto para desenvolvedores iniciantes que buscam uma ferramenta fácil de usar quanto para usuários avançados que desejam uma plataforma altamente personalizável.</p>
-        <p style="color: #ff6347; font-weight: bold;">⚠️ Aviso Importante:</p>
-        <p>O nazuna Bot é um projeto de código aberto, desenvolvido com paixão e dedicação. No entanto, ele é <strong>protegido por direitos autorais</strong>. A <strong>venda</strong> do nazuna Bot ou de suas versões modificadas é estritamente proibida, pois o projeto é oferecido gratuitamente. Além disso, a remoção total dos créditos do autor é vedada. Violações destas condições podem resultar em ações legais.</p>
+        <h2>Bem-vindo ao repositório oficial do Bot Sonhador!</h2>
+        <p>Este projeto é um bot avançado e multifuncional para WhatsApp, desenvolvido com a robustez do <strong>Node.js</strong> e a flexibilidade da biblioteca <strong>WaLib</strong>. Criado para otimizar sua comunicação e gestão de grupos, o Bot Sonhador oferece uma vasta gama de comandos, desde funcionalidades administrativas essenciais até opções de entretenimento interativas. É a solução perfeita tanto para desenvolvedores iniciantes que buscam uma ferramenta fácil de usar quanto para usuários avançados que desejam uma plataforma altamente personalizável.</p>
+        <p style="color: var(--accent-color); font-weight: bold;">⚠️ Aviso Importante:</p>
+        <p>O Bot Sonhador é um projeto de código aberto, desenvolvido com paixão e dedicação. No entanto, ele é <strong>protegido por direitos autorais</strong>. A <strong>venda</strong> do Bot Sonhador ou de suas versões modificadas é estritamente proibida, pois o projeto é oferecido gratuitamente. Além disso, a remoção total dos créditos do autor é vedada. Violações destas condições podem resultar em ações legais.</p>
     </section>
 
     <section id="por-que-se-destaca">
-        <h2>✨ Por que o nazuna Bot se Destaca?</h2>
-        <p>O nazuna Bot foi projetado para ser mais do que um simples assistente; ele é um parceiro digital que simplifica suas interações no WhatsApp. Veja o que o torna tão especial:</p>
+        <h2>✨ Por que o Bot Sonhador se Destaca?</h2>
+        <p>O Bot Sonhador foi projetado para ser mais do que um simples assistente; ele é um parceiro digital que simplifica suas interações no WhatsApp. Veja o que o torna tão especial:</p>
         <div class="highlights">
             <div class="highlight-item">
                 <h4><span>⚙️</span> Configuração Simplificada e Intuitiva</h4>
@@ -377,7 +349,7 @@
             </div>
             <div class="highlight-item">
                 <h4><span>📱</span> Compatibilidade Multiplataforma Inigualável</h4>
-                <p>Rode o nazuna Bot em praticamente qualquer ambiente: Windows, Linux, macOS, dispositivos Android (Termux) e até em servidores dedicados.</p>
+                <p>Rode o Bot Sonhador em praticamente qualquer ambiente: Windows, Linux, macOS, dispositivos Android (Termux) e até em servidores dedicados.</p>
             </div>
             <div class="highlight-item">
                 <h4><span>🔄</span> Atualizações Constantes e Melhorias Contínuas</h4>
@@ -385,17 +357,17 @@
             </div>
             <div class="highlight-item">
                 <h4><span>🛡️</span> Segurança Reforçada e Estabilidade Comprovada</h4>
-                <p>Desenvolvido com base no modo multi-dispositivos do WhatsApp, o nazuna Bot oferece uma operação fluida, segura e confiável, minimizando interrupções.</p>
+                <p>Desenvolvido com base no modo multi-dispositivos do WhatsApp, o Bot Sonhador oferece uma operação fluida, segura e confiável, minimizando interrupções.</p>
             </div>
         </div>
-        <p style="text-align: center; margin-top: 2rem;">💡 Após a configuração inicial, basta digitar <strong>/menu</strong> no WhatsApp para desvendar um universo de comandos e funcionalidades que o nazuna Bot oferece!</p>
+        <p style="text-align: center; margin-top: 2rem;">💡 Após a configuração inicial, basta digitar <strong>/menu</strong> no WhatsApp para desvendar um universo de comandos e funcionalidades que o Bot Sonhador oferece!</p>
     </section>
 
     <hr>
     
     <section id="estatisticas">
         <h2>📊 Estatísticas Detalhadas do Projeto</h2>
-        <p>Acompanhe o progresso e a vitalidade do nazuna Bot através de métricas em tempo real:</p>
+        <p>Acompanhe o progresso e a vitalidade do Bot Sonhador através de métricas em tempo real:</p>
         <table class="stats-table">
             <thead>
                 <tr>
@@ -426,9 +398,9 @@
     
     <section id="comunidade">
         <h2>📢 Conecte-se à Comunidade Oficial</h2>
-        <p>Mantenha-se sempre atualizado com as últimas notícias, receba dicas exclusivas e acesse suporte direto da comunidade do nazuna Bot. Junte-se a nós!</p>
+        <p>Mantenha-se sempre atualizado com as últimas notícias, receba dicas exclusivas e acesse suporte direto da comunidade do Bot Sonhador. Junte-se a nós!</p>
         <p style="text-align: center;">
-            <a href="https://wa.me/5533999285117" class="cta-button" target="_blank">Clique para entrar no nosso grupo oficial do WhatsApp</a>
+            <a href="https://wa.me/5551986690984" class="cta-button" target="_blank">Clique para entrar no nosso grupo oficial do WhatsApp</a>
         </p>
     </section>
 
@@ -441,10 +413,10 @@
             <ul style="list-style: none; padding: 0; display: inline-block; text-align: left;">
                 <li><a href="#primeiros-passos">🚀 Primeiros Passos: Guia Rápido</a></li>
                 <li><a href="#pre-requisitos">📋 Pré-requisitos Essenciais</a></li>
-                <li><a href="#instalacao">📥 Instalação do nazuna Bot</a></li>
+                <li><a href="#instalacao">📥 Instalação do Bot Sonhador</a></li>
                 <li><a href="#rodando-pela-primeira-vez">🚀 Rodando o Bot pela Primeira Vez</a></li>
                 <li><a href="#conectando-whatsapp">🔌 Conectando o Bot ao WhatsApp</a></li>
-                <li><a href="#atualizando">🔄 Atualizando o nazuna Bot</a></li>
+                <li><a href="#atualizando">🔄 Atualizando o Bot Sonhador</a></li>
                 <li><a href="#tutoriais-por-plataforma">💻 Tutoriais de Instalação por Plataforma</a></li>
                 <li><a href="#faq-comum">❓ Resolvendo Problemas Comuns (FAQ)</a></li>
                 <li><a href="#apoie-o-projeto">💖 Apoie o Projeto: Faça a Diferença</a></li>
@@ -463,16 +435,17 @@
         <p>Para aqueles que já têm alguma familiaridade, siga estes passos para uma configuração rápida:</p>
         <ol>
             <li><strong>Prepare o Ambiente:</strong> Certifique-se de ter o Node.js (versão 18 ou superior) e o Git instalados.</li>
-            <li><strong>Baixe o Bot:</strong> Clone o repositório oficial do nazuna Bot do GitHub.</li>
+            <li><strong>Baixe o Bot:</strong> Clone o repositório oficial do Bot Sonhador do GitHub.</li>
             <li><strong>Conecte ao WhatsApp:</strong> Utilize um número de telefone secundário e exclusivo para o bot.</li>
             <li><strong>Explore os Comandos:</strong> Após a conexão bem-sucedida, envie <code>/menu</code> para o bot no WhatsApp para descobrir todas as funcionalidades.</li>
         </ol>
         <p>💡 Dica para Iniciantes: Não se sinta sobrecarregado se os termos parecerem complexos. Cada seção deste documento foi cuidadosamente elaborada para fornecer instruções claras e passo a passo, tornando o processo acessível a todos.</p>
+        <a href="#indice" class="back-to-top">Voltar ao índice</a>
     </section>
 
     <section id="pre-requisitos">
         <h2>📋 Pré-requisitos Essenciais</h2>
-        <p>Para garantir que o nazuna Bot funcione perfeitamente, você precisará dos seguintes componentes:</p>
+        <p>Para garantir que o Bot Sonhador funcione perfeitamente, você precisará dos seguintes componentes:</p>
         <table class="stats-table">
             <thead>
                 <tr>
@@ -489,12 +462,12 @@
                 <tr><td>Recursos Mínimos</td><td>Para um funcionamento básico, o bot requer <strong>256MB de RAM</strong> e <strong>256MB de armazenamento</strong>. Recomendamos 512MB de RAM e 512MB de espaço em disco.</td></tr>
             </tbody>
         </table>
-        <p style="color: #ff6347; font-weight: bold; margin-top: 1rem;">⚠️ Alerta de Segurança: Reafirmamos a importância de utilizar um número de telefone secundário para o nazuna Bot.</p>
+        <p style="color: var(--accent-color); font-weight: bold; margin-top: 1rem;">⚠️ Alerta de Segurança: Reafirmamos a importância de utilizar um número de telefone secundário para o Bot Sonhador.</p>
         <a href="#indice" class="back-to-top">Voltar ao índice</a>
     </section>
 
     <section id="instalacao">
-        <h2>📥 Instalação do nazuna Bot</h2>
+        <h2>📥 Instalação do Bot Sonhador</h2>
         <p>Siga este guia passo a passo para instalar o bot. Certifique-se de ter todos os pré-requisitos instalados.</p>
         <h3>Clonar o Repositório do GitHub</h3>
         <p>Abra o terminal de sua preferência (Prompt de Comando no Windows, Terminal no Linux/macOS ou Termux no Android) e execute:</p>
@@ -509,7 +482,7 @@ npm run config:install</code></pre>
 
     <section id="rodando-pela-primeira-vez">
         <h2>🚀 Rodando o Bot pela Primeira Vez</h2>
-        <p>Após a instalação bem-sucedida, você está pronto para iniciar o nazuna Bot. Execute o seguinte comando no terminal, dentro do diretório do projeto:</p>
+        <p>Após a instalação bem-sucedida, você está pronto para iniciar o Bot Sonhador. Execute o seguinte comando no terminal, dentro do diretório do projeto:</p>
         <pre><code>npm start</code></pre>
         <p>💡 Primeira Execução e Autenticação: Na primeira vez, ele solicitará uma autenticação com o WhatsApp. A sessão será salva, e o bot se reconectará automaticamente em execuções futuras.</p>
         <a href="#indice" class="back-to-top">Voltar ao índice</a>
@@ -517,7 +490,7 @@ npm run config:install</code></pre>
 
     <section id="conectando-whatsapp">
         <h2>🔌 Conectando o Bot ao WhatsApp</h2>
-        <p>O nazuna Bot aproveita o <strong>modo multi-dispositivos</strong> do WhatsApp, o que significa que, após a configuração inicial, seu celular não precisa permanecer conectado à internet para que o bot funcione.</p>
+        <p>O Bot Sonhador aproveita o <strong>modo multi-dispositivos</strong> do WhatsApp, o que significa que, após a configuração inicial, seu celular não precisa permanecer conectado à internet para que o bot funcione.</p>
         <h3>1. Conexão via QR Code (Recomendado)</h3>
         <p>Ao executar <code>npm start</code>, o terminal exibirá um QR code. No seu smartphone, abra o WhatsApp, vá em <strong>Configurações > Aparelhos Conectados</strong>, toque em <strong>Conectar um Aparelho</strong> e utilize a câmera para escanear o QR code no terminal.</p>
         <h3>2. Conexão via Código de Pareamento</h3>
@@ -526,7 +499,7 @@ npm run config:install</code></pre>
     </section>
 
     <section id="atualizando">
-        <h2>🔄 Atualizando o nazuna Bot</h2>
+        <h2>🔄 Atualizando o Bot Sonhador</h2>
         <p>Manter seu bot atualizado é essencial. Para atualizar para a versão mais recente, navegue até o diretório do projeto e execute:</p>
         <pre><code>npm run update</code></pre>
         <p>✅ Atualização Segura e Sem Perdas: Suas configurações e dados de sessão não serão apagados, garantindo uma transição suave para a nova versão.</p>
@@ -537,7 +510,7 @@ npm run config:install</code></pre>
     
     <section id="tutoriais-por-plataforma">
         <h2>💻 Tutoriais de Instalação por Plataforma</h2>
-        <p>O nazuna Bot é incrivelmente versátil e pode ser executado em diversas plataformas. Escolha o tutorial que corresponde ao seu ambiente para um guia de instalação detalhado.</p>
+        <p>O Bot Sonhador é incrivelmente versátil e pode ser executado em diversas plataformas. Escolha o tutorial que corresponde ao seu ambiente para um guia de instalação detalhado.</p>
         <details>
             <summary>🖥️ Windows: Guia Completo</summary>
             <div class="content">
@@ -561,7 +534,7 @@ sudo apt install -y nodejs git</code></pre>
 cd nazuna
 npm run config
 npm run config:install</code></pre>
-                <p><strong>Executar:</strong> Para iniciar o bot, use <code>npm start</code>. Para rodar em segundo plano, recomendamos usar o <strong>pm2</strong> com <code>npm install -g pm2</code> e <code>pm2 start npm --name "nazuna" -- start</code>.</p>
+                <p><strong>Executar:</strong> Para iniciar o bot, use <code>npm start</code>. Para rodar em segundo plano, recomendamos usar o <strong>pm2</strong> com <code>npm install -g pm2</code> e <code>pm2 start npm --name "BotSonhador" -- start</code>.</p>
             </div>
         </details>
         <details>
@@ -624,19 +597,19 @@ npm run config:install</code></pre>
                 </tr>
             </tbody>
         </table>
-        <p style="text-align: center; margin-top: 1rem;">😊 Ainda com Problemas? Junte-se ao nosso <a href="https://wa.me/5533999285117" target="_blank">Grupo do WhatsApp</a> para obter suporte direto!</p>
+        <p style="text-align: center; margin-top: 1rem;">😊 Ainda com Problemas? Junte-se ao nosso <a href="https://wa.me/5551986690984" target="_blank">Grupo do WhatsApp</a> para obter suporte direto!</p>
         <a href="#indice" class="back-to-top">Voltar ao índice</a>
     </section>
 
     <section id="apoie-o-projeto">
         <h2>💖 Apoie o Projeto: Faça a Diferença</h2>
-        <p>O desenvolvimento e a manutenção do nazuna Bot são um trabalho de amor que exigem tempo e recursos. Seu apoio é fundamental para a continuidade e evolução do projeto.</p>
+        <p>O desenvolvimento e a manutenção do Bot Sonhador são um trabalho de amor que exigem tempo e recursos. Seu apoio é fundamental para a continuidade e evolução do projeto.</p>
         <div class="support-box">
-            <h3>🇧🇷 Doações no Brasil (via Pix)</h3>
+            <h3 style="color: var(--accent-color);">🇧🇷 Doações no Brasil (via Pix)</h3>
             <p><strong>Chave Pix (CNPJ):</strong> 60.374.533/0001-65</p>
             <p>Qualquer valor é bem-vindo e nos ajuda a manter o projeto vivo e próspero!</p>
         </div>
-        <p style="text-align: center; margin-top: 1rem;">❤️ Nossa Gratidão! Agradecemos imensamente a todos que apoiam o nazuna Bot. Sua generosidade é o que nos motiva a continuar inovando!</p>
+        <p style="text-align: center; margin-top: 1rem;">❤️ Nossa Gratidão! Agradecemos imensamente a todos que apoiam o Bot Sonhador. Sua generosidade é o que nos motiva a continuar inovando!</p>
         <a href="#indice" class="back-to-top">Voltar ao índice</a>
     </section>
     
@@ -644,7 +617,7 @@ npm run config:install</code></pre>
         <h2>🌐 Recomendação de Hospedagem</h2>
         <p>Para quem busca rodar o bot 24/7 de forma estável e com bom custo-benefício, recomendamos a <strong>Latam Data Center</strong>.</p>
         <p style="text-align: center;"><a href="https://latamdatacenter.com.br" target="_blank">latamdatacenter.com.br</a></p>
-        <p>Eles oferecem planos acessíveis, com boa estabilidade e suporte em português, ideais para projetos como o nazuna Bot.</p>
+        <p>Eles oferecem planos acessíveis, com boa estabilidade e suporte em português, ideais para projetos como o Bot Sonhador.</p>
         <a href="#indice" class="back-to-top">Voltar ao índice</a>
     </section>
 
@@ -653,7 +626,7 @@ npm run config:install</code></pre>
     <section id="licenca-direitos">
         <h2>📜 Licença de Uso e Direitos Autorais</h2>
         <p>© 2025 <strong>Hiudy</strong>. Todos os direitos reservados.</p>
-        <p>O nazuna Bot é um projeto de código aberto, mas é <strong>protegido por copyright</strong>. A <strong>venda</strong> do bot ou de suas versões modificadas é estritamente proibida, pois o projeto é oferecido gratuitamente. A remoção total dos créditos do autor também é vedada.</p>
+        <p>O Bot Sonhador é um projeto de código aberto, mas é <strong>protegido por copyright</strong>. A <strong>venda</strong> do bot ou de suas versões modificadas é estritamente proibida, pois o projeto é oferecido gratuitamente. A remoção total dos créditos do autor também é vedada.</p>
         <a href="#indice" class="back-to-top">Voltar ao índice</a>
     </section>
 
@@ -662,14 +635,14 @@ npm run config:install</code></pre>
         <div class="creator-info">
             <img src="https://avatars.githubusercontent.com/u/84221161?v=4" alt="Foto de Perfil do Hiudy">
             <h3>Feito com ❤️ e muitas xícaras de café por Hiudy</h3>
-            <p>Hiudy é um desenvolvedor apaixonado por criar ferramentas que tornam a tecnologia mais divertida, acessível e poderosa. Ele está constantemente inovando e dedicando seu tempo ao nazuna Bot.</p>
+            <p>Hiudy é um desenvolvedor apaixonado por criar ferramentas que tornam a tecnologia mais divertida, acessível e poderosa. Ele está constantemente inovando e dedicando seu tempo ao Bot Sonhador.</p>
             <p><strong>Bio:</strong> Hiudy é um entusiasta de tecnologia que se dedica a criar soluções práticas e inovadoras. Ele contribui ativamente para diversos projetos open-source e valoriza a interação com a comunidade.</p>
             <div class="social-links">
                 <a href="https://github.com/hiudyy" target="_blank">📍 GitHub: hiudyy</a>
                 <a href="https://discord.gg/your-discord-invite" target="_blank">💬 Discord: hiudyyy</a>
                 <a href="https://www.instagram.com/hiudyyy_/" target="_blank">📷 Instagram: hiudyyy_</a>
             </div>
-            <p style="text-align: center; margin-top: 1rem;">🌟 Gostou do Projeto? Demonstre seu apoio dando uma estrela no GitHub e compartilhando o nazuna Bot!</p>
+            <p style="text-align: center; margin-top: 1rem;">🌟 Gostou do Projeto? Demonstre seu apoio dando uma estrela no GitHub e compartilhando o Bot Sonhador!</p>
         </div>
         <a href="#indice" class="back-to-top">Voltar ao índice</a>
     </section>
@@ -698,7 +671,7 @@ npm run config:install</code></pre>
                 </tr>
             </tbody>
         </table>
-        <p style="text-align: center; margin-top: 1rem;">💡 Tem Mais Dúvidas? Nossa comunidade e o criador estão sempre dispostos a ajudar! Pergunte no <a href="https://wa.me/5533999285117" target="_blank">Grupo do WhatsApp</a> e teremos prazer em auxiliá-lo!</p>
+        <p style="text-align: center; margin-top: 1rem;">💡 Tem Mais Dúvidas? Nossa comunidade e o criador estão sempre dispostos a ajudar! Pergunte no <a href="https://wa.me/5551986690984" target="_blank">Grupo do WhatsApp</a> e teremos prazer em auxiliá-lo!</p>
         <a href="#indice" class="back-to-top">Voltar ao índice</a>
     </section>
 
