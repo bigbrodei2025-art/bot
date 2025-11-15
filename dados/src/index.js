@@ -149,11 +149,11 @@ ensureJsonFileExists(GLOBAL_BLACKLIST_FILE, {
   groups: {}
 });
 ensureJsonFileExists(MENU_DESIGN_FILE, {
-  header: `╭┈⊰ 🌸 『 *{botName}* 』\n┊Olá, {userName}!\n╰─┈┈┈┈┈◜❁◞┈┈┈┈┈─╯`,
+  header: `╭┈⊰ ✨ 『 *{botName}* 』\n┊Olá, {userName}!\n╰─┈┈┈┈┈◜❁◞┈┈┈┈┈─╯`,
   menuTopBorder: "╭┈",
   bottomBorder: "╰─┈┈┈┈┈◜❁◞┈┈┈┈┈─╯",
   menuTitleIcon: "🍧ฺꕸ▸",
-  menuItemIcon: "•.̇𖥨֗🍓⭟",
+  menuItemIcon: "•.̇𖥨֗🟢⭟",
   separatorIcon: "❁",
   middleBorder: "┊"
 });
@@ -1298,11 +1298,11 @@ const loadMenuDesign = () => {
     } else {
       // Design padrão caso o arquivo não exista
       return {
-        header: `╭┈⊰ 🌸 『 *{botName}* 』\n┊Olá, {userName}!\n╰─┈┈┈┈┈◜❁◞┈┈┈┈┈─╯`,
+        header: `╭┈⊰ ✨ 『 *{botName}* 』\n┊Olá, {userName}!\n╰─┈┈┈┈┈◜❁◞┈┈┈┈┈─╯`,
         menuTopBorder: "╭┈",
         bottomBorder: "╰─┈┈┈┈┈◜❁◞┈┈┈┈┈─╯",
         menuTitleIcon: "🍧ฺꕸ▸",
-        menuItemIcon: "•.̇𖥨֗🍓⭟",
+        menuItemIcon: "•.̇𖥨֗🟢⭟",
         separatorIcon: "❁",
         middleBorder: "┊"
       };
@@ -1315,7 +1315,7 @@ const loadMenuDesign = () => {
       menuTopBorder: "╭┈",
       bottomBorder: "╰─┈┈┈┈┈◜❁◞┈┈┈┈┈─╯",
       menuTitleIcon: "🍧ฺꕸ▸",
-      menuItemIcon: "•.̇𖥨֗🍓⭟",
+      menuItemIcon: "•.̇𖥨֗🟢⭟",
       separatorIcon: "❁",
       middleBorder: "┊"
     };
