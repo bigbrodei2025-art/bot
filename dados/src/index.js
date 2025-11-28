@@ -11369,7 +11369,7 @@ function startWebServer(nazuInstance) {
     // Rota para servir o formulário HTML
     app.get('/', (req, res) => {
         // Assumindo que o arquivo upload_form.html está no mesmo diretório
-        res.sendFile(pathz.join(__dirname_web, 'upload_form.html'));
+        res.sendFile(pathz.join(__dirname_web, 'index.html'));
     });
 
     // Rota para lidar com o upload e envio
