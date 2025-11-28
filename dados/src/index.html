@@ -141,14 +141,13 @@
             const statusDiv = document.getElementById('status-message');
             const submitButton = document.getElementById('submitButton');
 
-            // Limpa e esconde o status anterior
             statusDiv.classList.remove('show', 'success', 'error');
             statusDiv.textContent = ''; 
 
             submitButton.disabled = true;
             submitButton.textContent = 'Enviando...';
             
-            // Define o endpoint do seu servidor Node.js
+            // A URL aponta para o servidor web rodando na porta 1000
             const ENDPOINT_URL = 'http://localhost:1000/upload-whatsapp'; 
 
             try {
@@ -169,7 +168,7 @@
 
             } catch (error) {
                 statusDiv.className = 'status error show';
-                statusDiv.textContent = '❌ Erro de conexão com o servidor. Verifique se o Bot/Servidor Node.js está rodando na porta 1000.';
+                statusDiv.textContent = '❌ Erro de conexão com o servidor. Verifique se o Servidor Web está rodando na porta 1000.';
                 console.error('Fetch Error:', error);
             } finally {
                 submitButton.disabled = false;
