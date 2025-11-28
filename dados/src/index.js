@@ -11347,4 +11347,3 @@ function getDiskSpaceInfo() {
 }
 ;
 export default NazuninhaBotExec;
-
