@@ -3,177 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📤 Enviar Arquivo para WhatsApp via Bot</title>
+    <title>Enviar Mídia via Bot WhatsApp</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 450px;
-            border-top: 5px solid #25d366;
-        }
-        h1 {
-            color: #128c7e;
-            font-size: 24px;
-            margin-bottom: 25px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        h1 span {
-            margin-right: 10px;
-            font-size: 30px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: 600;
-        }
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-        input[type="file"] {
-            width: 100%;
-            padding: 12px 10px;
-            margin-bottom: 20px;
-            border: 2px dashed #a0e0a0;
-            border-radius: 8px;
-            cursor: pointer;
-            background-color: #f9fff9;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            background-color: #25d366;
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background-color 0.3s, opacity 0.3s;
-        }
-        button:hover:not(:disabled) {
-            background-color: #128c7e;
-        }
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        .status {
-            margin-top: 25px;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-        .status.show {
-            opacity: 1;
-        }
-        .status.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .status.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        .container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h1 { text-align: center; color: #333; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], textarea, input[type="file"] { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        input[type="submit"] { background-color: #25D366; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 20px; font-size: 16px; }
+        input[type="submit"]:hover { background-color: #128C7E; }
+        .message { margin-top: 15px; padding: 10px; border-radius: 4px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1><span>💬</span> Envio de Arquivos via Bot</h1>
-        
-        <form id="uploadForm">
-            
-            <label for="number">Número de WhatsApp (Com código do país):</label>
-            <input type="text" id="number" name="number" required 
-                   placeholder="Ex: 5511987654321" 
-                   pattern="[0-9]+" title="Apenas números são permitidos. Ex: 5511987654321">
-            
-            <label for="caption">Mensagem/Legenda (opcional):</label>
-            <textarea id="caption" name="caption" rows="3" 
-                      placeholder="Sua mensagem ou legenda aqui..."></textarea>
+        <h1>Enviar Mídia via Bot WhatsApp</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="number">Número de Destino (Formato: 55XX9XXXXXXXX):</label>
+            <input type="text" id="number" name="number" placeholder="Ex: 5511987654321" required>
 
-            <label for="arquivo">Selecione o Arquivo:</label>
-            <input type="file" id="arquivo" name="arquivo" required 
-                   accept=".pdf,image/*,video/mp4,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-            
-            <button type="submit" id="submitButton">
-                Fazer Upload e Enviar para WhatsApp
-            </button>
+            <label for="caption">Legenda (Opcional):</label>
+            <textarea id="caption" name="caption" rows="3" placeholder="Digite a legenda para a mídia..."></textarea>
+
+            <label for="file">Selecione o Arquivo (PDF, Imagem, Vídeo, etc.):</label>
+            <input type="file" id="file" name="file" required>
+
+            <input type="submit" value="Enviar Mensagem">
         </form>
-
-        <div id="status-message" class="status"></div>
-
+        
+        <!-- Placeholder para mensagens de status -->
+        <div id="status-message"></div>
     </div>
 
     <script>
-        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
-            event.preventDefault(); 
-            
-            const form = event.target;
-            const formData = new FormData(form);
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
             const statusDiv = document.getElementById('status-message');
-            const submitButton = document.getElementById('submitButton');
 
-            statusDiv.classList.remove('show', 'success', 'error');
-            statusDiv.textContent = ''; 
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                statusDiv.innerHTML = ''; // Limpa mensagens anteriores
 
-            submitButton.disabled = true;
-            submitButton.textContent = 'Enviando...';
-            
-            // A URL aponta para o servidor web rodando na porta 1000
-            const ENDPOINT_URL = 'http://localhost:1000/upload-whatsapp'; 
+                const formData = new FormData(form);
+                
+                try {
+                    const response = await fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
 
-            try {
-                const response = await fetch(ENDPOINT_URL, {
-                    method: 'POST',
-                    body: formData 
-                });
+                    const result = await response.json();
 
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    statusDiv.className = 'status success show';
-                    statusDiv.textContent = result.message;
-                } else {
-                    statusDiv.className = 'status error show';
-                    statusDiv.textContent = result.message || 'Erro desconhecido ao enviar arquivo.';
+                    if (response.ok) {
+                        statusDiv.innerHTML = `<div class="message success">✅ Sucesso: ${result.message}</div>`;
+                        form.reset(); // Limpa o formulário após o sucesso
+                    } else {
+                        statusDiv.innerHTML = `<div class="message error">❌ Erro: ${result.message || 'Ocorreu um erro desconhecido.'}</div>`;
+                    }
+                } catch (error) {
+                    console.error('Erro ao enviar formulário:', error);
+                    statusDiv.innerHTML = `<div class="message error">❌ Erro de Conexão: Não foi possível se comunicar com o servidor.</div>`;
                 }
-
-            } catch (error) {
-                statusDiv.className = 'status error show';
-                statusDiv.textContent = '❌ Erro de conexão com o servidor. Verifique se o Servidor Web está rodando na porta 1000.';
-                console.error('Fetch Error:', error);
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Fazer Upload e Enviar para WhatsApp';
-            }
+            });
         });
     </script>
 </body>
