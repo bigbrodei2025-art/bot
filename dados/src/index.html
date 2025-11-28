@@ -1,681 +1,181 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bot Sonhador | Seu Assistente Completo para WhatsApp</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    <title>📤 Enviar Arquivo para WhatsApp via Bot</title>
     <style>
-        /* Paleta de Cores Neon e Verde */
-        :root {
-            --bg-color: #000000; /* Fundo Preto */
-            --text-color: #e0e0e0; /* Texto Claro */
-            --accent-color: #00ff00; /* Verde Neon (Principal) */
-            --secondary-accent: #00ffff; /* Ciano/Azul Neon (Secundário) */
-            --card-bg: #111111; /* Fundo de Cartão Escuro */
-            --border-color: #333; /* Cor de Borda */
-            --code-bg: #1a1a1a; /* Fundo de Código */
-            --shadow-color: rgba(0, 255, 0, 0.4); /* Sombra Verde Neon */
-        }
-
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            scroll-behavior: smooth;
         }
-
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-
-        header {
-            text-align: center;
-            padding: 2rem 0 1rem;
-        }
-        
-        .logo-image {
-            width: 250px;
-            height: auto;
-            margin-bottom: 1rem;
-            border-radius: 50%;
-            box-shadow: 0 0 20px var(--shadow-color); /* Efeito neon ao redor da imagem */
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            text-shadow: 0 0 10px var(--shadow-color); /* Efeito neon no título */
-            margin-bottom: 0.5rem;
-        }
-        
-        header p {
-            color: var(--secondary-accent);
-        }
-
-        .special-offer {
-            background-color: var(--card-bg);
-            border: 2px solid var(--accent-color);
+            background-color: #ffffff;
+            padding: 30px;
             border-radius: 12px;
-            padding: 1.5rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            border-top: 5px solid #25d366;
+        }
+        h1 {
+            color: #128c7e;
+            font-size: 24px;
+            margin-bottom: 25px;
             text-align: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 0 25px var(--shadow-color); /* Efeito neon maior no cartão principal */
-        }
-
-        .special-offer h2 {
-            font-size: 1.8rem;
-            color: var(--accent-color);
-            text-shadow: 0 0 5px var(--shadow-color);
-            margin-top: 0;
-        }
-
-        .special-offer p {
-            font-size: 1.1rem;
-            margin: 0.5rem 0 1.5rem;
-        }
-
-        .special-offer ul {
-            list-style: none;
-            padding: 0;
-            text-align: left;
-            margin: 1.5rem auto;
-            max-width: 400px;
-        }
-        
-        .special-offer li {
-            margin-bottom: 0.75rem;
-            color: var(--text-color);
-        }
-        
-        .special-offer .check {
-            color: var(--accent-color); /* Checkmark verde neon */
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--bg-color); /* Texto preto no botão neon */
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-            box-shadow: 0 0 15px var(--shadow-color);
-        }
-        
-        .cta-button:hover {
-            background-color: #33ff33; /* Verde um pouco mais claro no hover */
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px #33ff33;
-        }
-
-        section {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            border-left: 5px solid var(--secondary-accent); /* Destaque lateral neon */
-        }
-        
-        h2 {
-            font-size: 1.5rem;
-            color: var(--secondary-accent);
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
-            margin-top: 0;
-        }
-        
-        h3 {
-            font-size: 1.25rem;
-            color: var(--accent-color);
-        }
-
-        .highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .highlight-item {
-            background-color: var(--code-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent-color);
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
-        }
-        
-        .highlight-item h4 {
-            margin-top: 0;
             display: flex;
             align-items: center;
-            color: var(--secondary-accent);
+            justify-content: center;
         }
-
-        .highlight-item h4 span {
+        h1 span {
             margin-right: 10px;
-            color: var(--accent-color);
+            font-size: 30px;
         }
-
-        /* Estilos de Tabela (Geral) */
-        .stats-table, .faq-table {
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+        input[type="text"], textarea {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem;
-        }
-        
-        .stats-table th, .stats-table td, .faq-table th, .faq-table td {
-            text-align: left;
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .stats-table th, .faq-table th {
-            color: var(--accent-color);
-            background-color: #0a0a0a;
-            border-bottom: 2px solid var(--accent-color);
-        }
-        
-        .stats-table tr:hover, .faq-table tr:hover {
-            background-color: #1a1a1a;
-        }
-        
-        .stats-table td:first-child {
-            color: var(--secondary-accent);
-            font-weight: bold;
-        }
-
-        /* Estilos de Código */
-        pre, code {
-            font-family: 'Courier New', monospace;
-            background-color: var(--code-bg);
-            color: var(--accent-color); /* Código verde neon */
-            padding: 0.75rem;
-            border-radius: 6px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            display: block;
-            border: 1px dashed var(--secondary-accent);
-        }
-
-        /* Estilos de FAQ (Details/Summary) */
-        details {
-            background-color: #111111;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            margin-bottom: 1rem;
-            border: 1px solid var(--border-color);
+            box-sizing: border-box;
+            transition: border-color 0.3s;
         }
-        
-        details summary {
-            padding: 1rem 1.5rem;
+        input[type="file"] {
+            width: 100%;
+            padding: 12px 10px;
+            margin-bottom: 20px;
+            border: 2px dashed #a0e0a0;
+            border-radius: 8px;
             cursor: pointer;
-            outline: none;
-            list-style: none;
+            background-color: #f9fff9;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            background-color: #25d366;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
             font-weight: bold;
-            color: var(--secondary-accent);
-            position: relative;
+            transition: background-color 0.3s, opacity 0.3s;
         }
-
-        details summary::after {
-            content: '▶';
-            position: absolute;
-            right: 1.5rem;
-            transition: transform 0.2s;
-            color: var(--accent-color);
+        button:hover:not(:disabled) {
+            background-color: #128c7e;
         }
-        
-        details[open] summary::after {
-            transform: rotate(90deg);
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
-        
-        details .content {
-            padding: 1.5rem;
-            padding-top: 0;
-            border-top: 1px solid var(--border-color);
+        .status {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.5s;
         }
-        
-        /* Links e Outros */
-        .back-to-top {
-            display: block;
-            text-align: right;
-            margin-top: 1rem;
-            color: var(--secondary-accent);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
+        .status.show {
+            opacity: 1;
         }
-        
-        .back-to-top:hover {
-            color: var(--accent-color);
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
-        
-        a {
-            color: var(--secondary-accent);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        a:hover {
-            color: var(--accent-color);
-        }
-
-        hr {
-            border: 0;
-            height: 1px;
-            background-color: var(--border-color);
-            box-shadow: 0 0 5px var(--shadow-color);
-            margin: 2rem 0;
-        }
-
-        /* Adaptação Responsiva */
-        @media (max-width: 600px) {
-            .container {
-                padding: 1rem;
-            }
-            .special-offer h2 {
-                font-size: 1.5rem;
-            }
-            .cta-button {
-                font-size: 1rem;
-                padding: 0.8rem 1.5rem;
-            }
-            .logo-image {
-                width: 180px;
-            }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1><span>💬</span> Envio de Arquivos via Bot</h1>
+        
+        <form id="uploadForm">
+            
+            <label for="number">Número de WhatsApp (Com código do país):</label>
+            <input type="text" id="number" name="number" required 
+                   placeholder="Ex: 5511987654321" 
+                   pattern="[0-9]+" title="Apenas números são permitidos. Ex: 5511987654321">
+            
+            <label for="caption">Mensagem/Legenda (opcional):</label>
+            <textarea id="caption" name="caption" rows="3" 
+                      placeholder="Sua mensagem ou legenda aqui..."></textarea>
 
-<header>
-    <img src="bot/dados/midias/menu.jpg" alt="Logo Bot Sonhador" class="logo-image">
-    <h1><span style="color: var(--accent-color);">Bot Sonhador</span></h1>
-    <p>Seu Assistente Completo para WhatsApp</p>
-</header>
+            <label for="arquivo">Selecione o Arquivo:</label>
+            <input type="file" id="arquivo" name="arquivo" required 
+                   accept=".pdf,image/*,video/mp4,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+            
+            <button type="submit" id="submitButton">
+                Fazer Upload e Enviar para WhatsApp
+            </button>
+        </form>
 
-<div class="container">
-    <div class="special-offer" id="oferta-premium">
-        <h2>🚀 Oferta Especial (Plano Premium Bot Sonhador)</h2>
-        <p>Ative <strong>todas as funções avançadas</strong> do Bot Sonhador + <strong>Hospedagem 24/7</strong> (seu bot sempre online, sem depender do seu PC ou celular) por apenas <strong>R$ 25 / mês</strong>.</p>
-        <p>Ideal para quem quer profissionalizar o uso do bot sem dor de cabeça!</p>
-        <div style="text-align: left; margin: 1.5rem auto; max-width: 400px;">
-            <h3>Benefícios incluídos no combo:</h3>
-            <ul>
-                <li><span class="check">✅</span> Combo API Key exclusiva (desbloqueia todas as features premium compatíveis)</li>
-                <li><span class="check">✅</span> Hospedagem estável e monitorada 24/7</li>
-                <li><span class="check">✅</span> Atualizações automáticas e manutenção preventiva</li>
-                <li><span class="check">✅</span> Suporte direto comigo no WhatsApp</li>
-                <li><span class="check">✅</span> Ajuda na configuração inicial e otimização</li>
-                <li><span class="check">✅</span> Menos risco de queda ou ban por má configuração</li>
-            </ul>
-        </div>
-        <a href="https://wa.me/5551986690984" class="cta-button" target="_blank">
-            👉 Garanta agora: Falar no WhatsApp
-        </a>
-        <p style="margin-top: 1rem; font-size: 0.9rem;">Vagas promocionais limitadas. Número de contato: **(51) 98669-0984**</p>
+        <div id="status-message" class="status"></div>
+
     </div>
 
-    <hr>
-    
-    <section id="introducao">
-        <h2>Bem-vindo ao repositório oficial do Bot Sonhador!</h2>
-        <p>Este projeto é um bot avançado e multifuncional para WhatsApp, desenvolvido com a robustez do <strong>Node.js</strong> e a flexibilidade da biblioteca <strong>WaLib</strong>. Criado para otimizar sua comunicação e gestão de grupos, o Bot Sonhador oferece uma vasta gama de comandos, desde funcionalidades administrativas essenciais até opções de entretenimento interativas. É a solução perfeita tanto para desenvolvedores iniciantes que buscam uma ferramenta fácil de usar quanto para usuários avançados que desejam uma plataforma altamente personalizável.</p>
-        <p style="color: var(--accent-color); font-weight: bold;">⚠️ Aviso Importante:</p>
-        <p>O Bot Sonhador é um projeto de código aberto, desenvolvido com paixão e dedicação. No entanto, ele é <strong>protegido por direitos autorais</strong>. A <strong>venda</strong> do Bot Sonhador ou de suas versões modificadas é estritamente proibida, pois o projeto é oferecido gratuitamente. Além disso, a remoção total dos créditos do autor é vedada. Violações destas condições podem resultar em ações legais.</p>
-    </section>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); 
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const statusDiv = document.getElementById('status-message');
+            const submitButton = document.getElementById('submitButton');
 
-    <section id="por-que-se-destaca">
-        <h2>✨ Por que o Bot Sonhador se Destaca?</h2>
-        <p>O Bot Sonhador foi projetado para ser mais do que um simples assistente; ele é um parceiro digital que simplifica suas interações no WhatsApp. Veja o que o torna tão especial:</p>
-        <div class="highlights">
-            <div class="highlight-item">
-                <h4><span>⚙️</span> Configuração Simplificada e Intuitiva</h4>
-                <p>Conecte-se ao WhatsApp em questão de minutos, utilizando um prático QR code ou um código de pareamento, eliminando complexidades iniciais.</p>
-            </div>
-            <div class="highlight-item">
-                <h4><span>🚀</span> Funcionalidade Abrangente e Versátil</h4>
-                <p>Gerencie grupos com eficiência, utilize ferramentas utilitárias e divirta-se com uma biblioteca crescente de comandos de entretenimento, tudo em um só lugar.</p>
-            </div>
-            <div class="highlight-item">
-                <h4><span>📱</span> Compatibilidade Multiplataforma Inigualável</h4>
-                <p>Rode o Bot Sonhador em praticamente qualquer ambiente: Windows, Linux, macOS, dispositivos Android (Termux) e até em servidores dedicados.</p>
-            </div>
-            <div class="highlight-item">
-                <h4><span>🔄</span> Atualizações Constantes e Melhorias Contínuas</h4>
-                <p>Nossa equipe está sempre trabalhando para trazer novas funcionalidades, otimizações de desempenho e correções de bugs, garantindo que seu bot esteja na vanguarda.</p>
-            </div>
-            <div class="highlight-item">
-                <h4><span>🛡️</span> Segurança Reforçada e Estabilidade Comprovada</h4>
-                <p>Desenvolvido com base no modo multi-dispositivos do WhatsApp, o Bot Sonhador oferece uma operação fluida, segura e confiável, minimizando interrupções.</p>
-            </div>
-        </div>
-        <p style="text-align: center; margin-top: 2rem;">💡 Após a configuração inicial, basta digitar <strong>/menu</strong> no WhatsApp para desvendar um universo de comandos e funcionalidades que o Bot Sonhador oferece!</p>
-    </section>
+            // Limpa e esconde o status anterior
+            statusDiv.classList.remove('show', 'success', 'error');
+            statusDiv.textContent = ''; 
 
-    <hr>
-    
-    <section id="estatisticas">
-        <h2>📊 Estatísticas Detalhadas do Projeto</h2>
-        <p>Acompanhe o progresso e a vitalidade do Bot Sonhador através de métricas em tempo real:</p>
-        <table class="stats-table">
-            <thead>
-                <tr>
-                    <th>Ícone/Badge</th>
-                    <th>Descrição Detalhada</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>🕒 Última Atualização:</td><td>Indica a data do último commit realizado no repositório.</td></tr>
-                <tr><td>⭐ Favoritos (Estrelas):</td><td>Representa o número de estrelas no GitHub.</td></tr>
-                <tr><td>🍴 Forks:</td><td>Contagem de cópias do projeto (forks) criadas por outros desenvolvedores.</td></tr>
-                <tr><td>🐞 Issues:</td><td>Número de problemas reportados, sugestões de melhoria ou dúvidas.</td></tr>
-                <tr><td>📝 Commits:</td><td>Frequência de atualizações no código-fonte.</td></tr>
-                <tr><td>💾 Tamanho do Repositório:</td><td>O espaço total ocupado pelo projeto no GitHub.</td></tr>
-                <tr><td>👥 Contribuidores:</td><td>Lista de todas as pessoas que contribuíram ativamente.</td></tr>
-                <tr><td>📥 Downloads:</td><td>O número total de vezes que o projeto foi baixado.</td></tr>
-                <tr><td>🌐 Linguagens:</td><td>As principais linguagens de programação utilizadas.</td></tr>
-                <tr><td>🔄 Pull Requests:</td><td>Propostas de melhorias ou novas funcionalidades.</td></tr>
-                <tr><td>⏱️ Tempo de Resposta (Issues):</td><td>Média de tempo para uma issue ser resolvida.</td></tr>
-                <tr><td>📜 Licença:</td><td>Informa que o projeto é protegido por copyright.</td></tr>
-                <tr><td>✅ Status:</td><td>Indica que o projeto está ativo e em constante desenvolvimento.</td></tr>
-            </tbody>
-        </table>
-        <p style="text-align: center; margin-top: 1.5rem;">📈 Visitas Totais ao Repositório: Este contador registra o número total de visualizações.</p>
-    </section>
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
+            
+            // Define o endpoint do seu servidor Node.js
+            const ENDPOINT_URL = 'http://localhost:3000/upload-whatsapp'; 
 
-    <hr>
-    
-    <section id="comunidade">
-        <h2>📢 Conecte-se à Comunidade Oficial</h2>
-        <p>Mantenha-se sempre atualizado com as últimas notícias, receba dicas exclusivas e acesse suporte direto da comunidade do Bot Sonhador. Junte-se a nós!</p>
-        <p style="text-align: center;">
-            <a href="https://wa.me/5551986690984" class="cta-button" target="_blank">Clique para entrar no nosso grupo oficial do WhatsApp</a>
-        </p>
-    </section>
+            try {
+                const response = await fetch(ENDPOINT_URL, {
+                    method: 'POST',
+                    body: formData 
+                });
 
-    <hr>
+                const result = await response.json();
 
-    <section id="indice">
-        <h2>📜 Índice Detalhado</h2>
-        <p>Navegue facilmente por todas as seções deste documento:</p>
-        <nav style="text-align: center;">
-            <ul style="list-style: none; padding: 0; display: inline-block; text-align: left;">
-                <li><a href="#primeiros-passos">🚀 Primeiros Passos: Guia Rápido</a></li>
-                <li><a href="#pre-requisitos">📋 Pré-requisitos Essenciais</a></li>
-                <li><a href="#instalacao">📥 Instalação do Bot Sonhador</a></li>
-                <li><a href="#rodando-pela-primeira-vez">🚀 Rodando o Bot pela Primeira Vez</a></li>
-                <li><a href="#conectando-whatsapp">🔌 Conectando o Bot ao WhatsApp</a></li>
-                <li><a href="#atualizando">🔄 Atualizando o Bot Sonhador</a></li>
-                <li><a href="#tutoriais-por-plataforma">💻 Tutoriais de Instalação por Plataforma</a></li>
-                <li><a href="#faq-comum">❓ Resolvendo Problemas Comuns (FAQ)</a></li>
-                <li><a href="#apoie-o-projeto">💖 Apoie o Projeto: Faça a Diferença</a></li>
-                <li><a href="#licenca-direitos">📜 Licença de Uso e Direitos Autorais</a></li>
-                <li><a href="#sobre-o-criador">👤 Sobre o Criador: Hiudy</a></li>
-                <li><a href="#faq-avancado">❔ FAQ Avançado e Dúvidas Frequentes</a></li>
-            </ul>
-        </nav>
-    </section>
+                if (response.ok && result.success) {
+                    statusDiv.className = 'status success show';
+                    statusDiv.textContent = result.message;
+                } else {
+                    statusDiv.className = 'status error show';
+                    statusDiv.textContent = result.message || 'Erro desconhecido ao enviar arquivo.';
+                }
 
-    <hr>
-
-    <section id="primeiros-passos">
-        <h2>🚀 Primeiros Passos: Guia Rápido</h2>
-        <p>Se você é novo no mundo dos bots de WhatsApp, é altamente recomendável que você siga o tutorial específico para a sua plataforma (<a href="#tutoriais-por-plataforma">Windows, Linux, Termux ou Pterodactyl</a>).</p>
-        <p>Para aqueles que já têm alguma familiaridade, siga estes passos para uma configuração rápida:</p>
-        <ol>
-            <li><strong>Prepare o Ambiente:</strong> Certifique-se de ter o Node.js (versão 18 ou superior) e o Git instalados.</li>
-            <li><strong>Baixe o Bot:</strong> Clone o repositório oficial do Bot Sonhador do GitHub.</li>
-            <li><strong>Conecte ao WhatsApp:</strong> Utilize um número de telefone secundário e exclusivo para o bot.</li>
-            <li><strong>Explore os Comandos:</strong> Após a conexão bem-sucedida, envie <code>/menu</code> para o bot no WhatsApp para descobrir todas as funcionalidades.</li>
-        </ol>
-        <p>💡 Dica para Iniciantes: Não se sinta sobrecarregado se os termos parecerem complexos. Cada seção deste documento foi cuidadosamente elaborada para fornecer instruções claras e passo a passo, tornando o processo acessível a todos.</p>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <section id="pre-requisitos">
-        <h2>📋 Pré-requisitos Essenciais</h2>
-        <p>Para garantir que o Bot Sonhador funcione perfeitamente, você precisará dos seguintes componentes:</p>
-        <table class="stats-table">
-            <thead>
-                <tr>
-                    <th>Item Essencial</th>
-                    <th>Descrição Detalhada e Links</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>Node.js</td><td>Versão 18 ou superior. <a href="https://nodejs.org/" target="_blank">Baixe a versão LTS aqui.</a></td></tr>
-                <tr><td>Git</td><td>Ferramenta de controle de versão. <a href="https://git-scm.com/" target="_blank">Baixe aqui.</a></td></tr>
-                <tr><td>WhatsApp</td><td>Um <strong>número de telefone dedicado e secundário</strong> para o bot.</td></tr>
-                <tr><td>Internet Estável</td><td>Uma conexão à internet contínua é fundamental para o funcionamento ininterrupto.</td></tr>
-                <tr><td>Dispositivo Compatível</td><td>Você pode rodar em um computador (Windows, Linux, macOS), Android (Termux) ou servidor dedicado.</td></tr>
-                <tr><td>Recursos Mínimos</td><td>Para um funcionamento básico, o bot requer <strong>256MB de RAM</strong> e <strong>256MB de armazenamento</strong>. Recomendamos 512MB de RAM e 512MB de espaço em disco.</td></tr>
-            </tbody>
-        </table>
-        <p style="color: var(--accent-color); font-weight: bold; margin-top: 1rem;">⚠️ Alerta de Segurança: Reafirmamos a importância de utilizar um número de telefone secundário para o Bot Sonhador.</p>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <section id="instalacao">
-        <h2>📥 Instalação do Bot Sonhador</h2>
-        <p>Siga este guia passo a passo para instalar o bot. Certifique-se de ter todos os pré-requisitos instalados.</p>
-        <h3>Clonar o Repositório do GitHub</h3>
-        <p>Abra o terminal de sua preferência (Prompt de Comando no Windows, Terminal no Linux/macOS ou Termux no Android) e execute:</p>
-        <pre><code>git clone https://github.com/hiudyy/nazuna.git
-cd nazuna</code></pre>
-        <h3>Instalar Dependências do Projeto</h3>
-        <p>Execute os comandos abaixo, um por vez. O processo pode levar alguns minutos:</p>
-        <pre><code>npm run config
-npm run config:install</code></pre>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <section id="rodando-pela-primeira-vez">
-        <h2>🚀 Rodando o Bot pela Primeira Vez</h2>
-        <p>Após a instalação bem-sucedida, você está pronto para iniciar o Bot Sonhador. Execute o seguinte comando no terminal, dentro do diretório do projeto:</p>
-        <pre><code>npm start</code></pre>
-        <p>💡 Primeira Execução e Autenticação: Na primeira vez, ele solicitará uma autenticação com o WhatsApp. A sessão será salva, e o bot se reconectará automaticamente em execuções futuras.</p>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <section id="conectando-whatsapp">
-        <h2>🔌 Conectando o Bot ao WhatsApp</h2>
-        <p>O Bot Sonhador aproveita o <strong>modo multi-dispositivos</strong> do WhatsApp, o que significa que, após a configuração inicial, seu celular não precisa permanecer conectado à internet para que o bot funcione.</p>
-        <h3>1. Conexão via QR Code (Recomendado)</h3>
-        <p>Ao executar <code>npm start</code>, o terminal exibirá um QR code. No seu smartphone, abra o WhatsApp, vá em <strong>Configurações > Aparelhos Conectados</strong>, toque em <strong>Conectar um Aparelho</strong> e utilize a câmera para escanear o QR code no terminal.</p>
-        <h3>2. Conexão via Código de Pareamento</h3>
-        <p>Este método é útil para dispositivos sem câmera ou acesso remoto. Ao rodar <code>npm start</code>, o bot solicitará seu número. Após digitá-lo, o terminal fornecerá um código alfanumérico. No WhatsApp, vá em <strong>Configurações > Aparelhos Conectados</strong>, toque em <strong>Conectar com Número de Telefone</strong> e insira o código.</p>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <section id="atualizando">
-        <h2>🔄 Atualizando o Bot Sonhador</h2>
-        <p>Manter seu bot atualizado é essencial. Para atualizar para a versão mais recente, navegue até o diretório do projeto e execute:</p>
-        <pre><code>npm run update</code></pre>
-        <p>✅ Atualização Segura e Sem Perdas: Suas configurações e dados de sessão não serão apagados, garantindo uma transição suave para a nova versão.</p>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <hr>
-    
-    <section id="tutoriais-por-plataforma">
-        <h2>💻 Tutoriais de Instalação por Plataforma</h2>
-        <p>O Bot Sonhador é incrivelmente versátil e pode ser executado em diversas plataformas. Escolha o tutorial que corresponde ao seu ambiente para um guia de instalação detalhado.</p>
-        <details>
-            <summary>🖥️ Windows: Guia Completo</summary>
-            <div class="content">
-                <p><strong>Pré-requisitos:</strong> Instale Node.js e Git para Windows. Verifique a instalação com <code>node -v</code> e <code>git --version</code>.</p>
-                <p><strong>Instalação:</strong> Abra o Prompt de Comando e execute os comandos para clonar o repositório e instalar as dependências:</p>
-                <pre><code>git clone https://github.com/hiudyy/nazuna.git
-cd nazuna
-npm run config
-npm run config:install</code></pre>
-                <p><strong>Executar:</strong> Para iniciar o bot, use <code>npm start</code>. Para mantê-lo online 24/7, você pode usar o NSSM (Non-Sucking Service Manager).</p>
-            </div>
-        </details>
-        <details>
-            <summary>🐧 Linux: Instalação e Configuração</summary>
-            <div class="content">
-                <p><strong>Pré-requisitos:</strong> Abra o terminal e instale Node.js e Git:</p>
-                <pre><code>sudo apt update && sudo apt upgrade -y
-sudo apt install -y nodejs git</code></pre>
-                <p><strong>Instalação:</strong> Clone o repositório e instale as dependências:</p>
-                <pre><code>git clone https://github.com/hiudyy/nazuna.git
-cd nazuna
-npm run config
-npm run config:install</code></pre>
-                <p><strong>Executar:</strong> Para iniciar o bot, use <code>npm start</code>. Para rodar em segundo plano, recomendamos usar o <strong>pm2</strong> com <code>npm install -g pm2</code> e <code>pm2 start npm --name "BotSonhador" -- start</code>.</p>
-            </div>
-        </details>
-        <details>
-            <summary>📱 Termux (Android): Passo a Passo Detalhado</summary>
-            <div class="content">
-                <p><strong>Instalar Termux:</strong> Baixe <strong>apenas</strong> do <a href="https://f-droid.org/" target="_blank">F-Droid</a>. A versão da Google Play está desatualizada.</p>
-                <p><strong>Configuração Inicial:</strong> Abra o Termux e execute:</p>
-                <pre><code>pkg update && pkg upgrade -y
-termux-setup-storage</code></pre>
-                <p><strong>Instalar Pré-requisitos:</strong> Instale as ferramentas necessárias:</p>
-                <pre><code>pkg install nodejs git -y</code></pre>
-                <p><strong>Instalação do Bot:</strong> Clone o repositório para o armazenamento interno:</p>
-                <pre><code>cd ~/storage/shared
-git clone https://github.com/hiudyy/nazuna.git
-cd nazuna
-npm run config
-npm run config:install</code></pre>
-                <p><strong>Executar:</strong> Inicie o bot com <code>npm start</code>. Mantenha o Termux rodando e desative as otimizações de bateria para o app.</p>
-            </div>
-        </details>
-        <details>
-            <summary>☁️ Pterodactyl: Configuração em Servidores</summary>
-            <div class="content">
-                <p><strong>Opção 1 (Recomendado):</strong> Use o Egg oficial do nazuna, que automatiza a maior parte do processo. Baixe o JSON do Egg em <a href="https://gitlab.com/hiudyy/nazuna-funcs/nazuna-egg.json" target="_blank">https://gitlab.com/hiudyy/nazuna-funcs/nazuna-egg.json</a>, importe-o no painel de administração e crie um servidor usando este Egg.</p>
-                <p><strong>Opção 2 (Manual):</strong> Crie um servidor com um Egg Node.js comum e execute os comandos de instalação manualmente via console, seguindo os mesmos passos das outras plataformas.</p>
-            </div>
-        </details>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <section id="faq-comum">
-        <h2>❓ Resolvendo Problemas Comuns (FAQ)</h2>
-        <table class="faq-table">
-            <thead>
-                <tr>
-                    <th>Problema Comum</th>
-                    <th>Solução Detalhada</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>"Comando não encontrado" (git, node, npm)</td>
-                    <td>Verifique se o Node.js e o Git estão instalados corretamente e no PATH do sistema.</td>
-                </tr>
-                <tr>
-                    <td>QR Code não funciona ou expira rapidamente</td>
-                    <td>Verifique sua internet, aumente a janela do terminal ou tente o método de conexão com código de pareamento.</td>
-                </tr>
-                <tr>
-                    <td>Bot desconecta frequentemente</td>
-                    <td>Verifique a estabilidade da sua internet e a quantidade de recursos (RAM/CPU) alocados para o bot.</td>
-                </tr>
-                <tr>
-                    <td>Erro durante a instalação de dependências</td>
-                    <td>Tente limpar o cache do npm com <code>npm cache clean --force</code> e reinstale com <code>npm install</code>.</td>
-                </tr>
-                <tr>
-                    <td>Termux para de funcionar em segundo plano</td>
-                    <td>Desative a otimização de bateria para o Termux nas configurações do Android.</td>
-                </tr>
-            </tbody>
-        </table>
-        <p style="text-align: center; margin-top: 1rem;">😊 Ainda com Problemas? Junte-se ao nosso <a href="https://wa.me/5551986690984" target="_blank">Grupo do WhatsApp</a> para obter suporte direto!</p>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <section id="apoie-o-projeto">
-        <h2>💖 Apoie o Projeto: Faça a Diferença</h2>
-        <p>O desenvolvimento e a manutenção do Bot Sonhador são um trabalho de amor que exigem tempo e recursos. Seu apoio é fundamental para a continuidade e evolução do projeto.</p>
-        <div class="support-box">
-            <h3 style="color: var(--accent-color);">🇧🇷 Doações no Brasil (via Pix)</h3>
-            <p><strong>Chave Pix (CNPJ):</strong> 60.374.533/0001-65</p>
-            <p>Qualquer valor é bem-vindo e nos ajuda a manter o projeto vivo e próspero!</p>
-        </div>
-        <p style="text-align: center; margin-top: 1rem;">❤️ Nossa Gratidão! Agradecemos imensamente a todos que apoiam o Bot Sonhador. Sua generosidade é o que nos motiva a continuar inovando!</p>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-    
-    <section id="hospedagem-recomendada">
-        <h2>🌐 Recomendação de Hospedagem</h2>
-        <p>Para quem busca rodar o bot 24/7 de forma estável e com bom custo-benefício, recomendamos a <strong>Latam Data Center</strong>.</p>
-        <p style="text-align: center;"><a href="https://latamdatacenter.com.br" target="_blank">latamdatacenter.com.br</a></p>
-        <p>Eles oferecem planos acessíveis, com boa estabilidade e suporte em português, ideais para projetos como o Bot Sonhador.</p>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <hr>
-    
-    <section id="licenca-direitos">
-        <h2>📜 Licença de Uso e Direitos Autorais</h2>
-        <p>© 2025 <strong>Hiudy</strong>. Todos os direitos reservados.</p>
-        <p>O Bot Sonhador é um projeto de código aberto, mas é <strong>protegido por copyright</strong>. A <strong>venda</strong> do bot ou de suas versões modificadas é estritamente proibida, pois o projeto é oferecido gratuitamente. A remoção total dos créditos do autor também é vedada.</p>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <section id="sobre-o-criador">
-        <h2>👤 Sobre o Criador: Hiudy</h2>
-        <div class="creator-info">
-            <img src="https://avatars.githubusercontent.com/u/84221161?v=4" alt="Foto de Perfil do Hiudy">
-            <h3>Feito com ❤️ e muitas xícaras de café por Hiudy</h3>
-            <p>Hiudy é um desenvolvedor apaixonado por criar ferramentas que tornam a tecnologia mais divertida, acessível e poderosa. Ele está constantemente inovando e dedicando seu tempo ao Bot Sonhador.</p>
-            <p><strong>Bio:</strong> Hiudy é um entusiasta de tecnologia que se dedica a criar soluções práticas e inovadoras. Ele contribui ativamente para diversos projetos open-source e valoriza a interação com a comunidade.</p>
-            <div class="social-links">
-                <a href="https://github.com/hiudyy" target="_blank">📍 GitHub: hiudyy</a>
-                <a href="https://discord.gg/your-discord-invite" target="_blank">💬 Discord: hiudyyy</a>
-                <a href="https://www.instagram.com/hiudyyy_/" target="_blank">📷 Instagram: hiudyyy_</a>
-            </div>
-            <p style="text-align: center; margin-top: 1rem;">🌟 Gostou do Projeto? Demonstre seu apoio dando uma estrela no GitHub e compartilhando o Bot Sonhador!</p>
-        </div>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-    <section id="faq-avancado">
-        <h2>❔ FAQ Avançado e Dúvidas Frequentes</h2>
-        <table class="faq-table">
-            <thead>
-                <tr>
-                    <th>Pergunta Frequente</th>
-                    <th>Resposta Detalhada</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Posso usar meu número de telefone principal?</td>
-                    <td><strong>Não é recomendado.</strong> Use sempre um número secundário para evitar riscos de banimento da sua conta principal pelo WhatsApp.</td>
-                </tr>
-                <tr>
-                    <td>O bot funciona se meu celular estiver offline?</td>
-                    <td><strong>Sim!</strong> Graças ao modo multi-dispositivos, o bot funciona de forma independente após a configuração inicial.</td>
-                </tr>
-                <tr>
-                    <td>Como personalizar os comandos e respostas?</td>
-                    <td>Você pode editar o arquivo <code>config.json</code> para alterar o prefixo e outras configurações. Para personalizações mais avançadas, edite os arquivos de comando na pasta do projeto.</td>
-                </tr>
-            </tbody>
-        </table>
-        <p style="text-align: center; margin-top: 1rem;">💡 Tem Mais Dúvidas? Nossa comunidade e o criador estão sempre dispostos a ajudar! Pergunte no <a href="https://wa.me/5551986690984" target="_blank">Grupo do WhatsApp</a> e teremos prazer em auxiliá-lo!</p>
-        <a href="#indice" class="back-to-top">Voltar ao índice</a>
-    </section>
-
-</div>
-
+            } catch (error) {
+                statusDiv.className = 'status error show';
+                statusDiv.textContent = '❌ Erro de conexão com o servidor. Verifique se o Bot/Servidor Node.js está rodando na porta 3000.';
+                console.error('Fetch Error:', error);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Fazer Upload e Enviar para WhatsApp';
+            }
+        });
+    </script>
 </body>
 </html>
